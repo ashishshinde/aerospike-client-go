@@ -19,7 +19,7 @@ package aerospike
 import (
 	"fmt"
 
-	ParticleType "github.com/aerospike/aerospike-client-go/internal/particle_type"
+	ParticleType "github.com/ashishshinde/aerospike-client-go/internal/particle_type"
 )
 
 // HyperLogLog (HLL) operations.

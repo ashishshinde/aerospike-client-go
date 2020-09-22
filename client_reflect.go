@@ -20,9 +20,9 @@ import (
 	"errors"
 	"reflect"
 
-	. "github.com/aerospike/aerospike-client-go/internal/atomic"
-	. "github.com/aerospike/aerospike-client-go/types"
-	xornd "github.com/aerospike/aerospike-client-go/types/rand"
+	. "github.com/ashishshinde/aerospike-client-go/internal/atomic"
+	. "github.com/ashishshinde/aerospike-client-go/types"
+	xornd "github.com/ashishshinde/aerospike-client-go/types/rand"
 )
 
 // PutObject writes record bin(s) to the server.

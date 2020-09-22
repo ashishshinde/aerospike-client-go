@@ -27,8 +27,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	as "github.com/aerospike/aerospike-client-go"
-	asl "github.com/aerospike/aerospike-client-go/logger"
+	as "github.com/ashishshinde/aerospike-client-go"
+	asl "github.com/ashishshinde/aerospike-client-go/logger"
 )
 
 var (

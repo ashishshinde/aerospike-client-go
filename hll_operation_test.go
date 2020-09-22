@@ -21,8 +21,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	as "github.com/aerospike/aerospike-client-go"
-	"github.com/aerospike/aerospike-client-go/types"
+	as "github.com/ashishshinde/aerospike-client-go"
+	"github.com/ashishshinde/aerospike-client-go/types"
 )
 
 var _ = Describe("HyperLogLog Test", func() {

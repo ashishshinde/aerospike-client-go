@@ -17,8 +17,8 @@ package aerospike
 import (
 	"fmt"
 
-	. "github.com/aerospike/aerospike-client-go/logger"
-	. "github.com/aerospike/aerospike-client-go/types"
+	. "github.com/ashishshinde/aerospike-client-go/logger"
+	. "github.com/ashishshinde/aerospike-client-go/types"
 )
 
 type bufferedConn struct {

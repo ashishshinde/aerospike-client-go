@@ -31,9 +31,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	as "github.com/aerospike/aerospike-client-go"
-	asl "github.com/aerospike/aerospike-client-go/logger"
-	ast "github.com/aerospike/aerospike-client-go/types"
+	as "github.com/ashishshinde/aerospike-client-go"
+	asl "github.com/ashishshinde/aerospike-client-go/logger"
+	ast "github.com/ashishshinde/aerospike-client-go/types"
 )
 
 type TStats struct {

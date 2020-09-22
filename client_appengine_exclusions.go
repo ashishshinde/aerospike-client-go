@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"sync"
 
-	. "github.com/aerospike/aerospike-client-go/internal/atomic"
-	lualib "github.com/aerospike/aerospike-client-go/internal/lua"
-	. "github.com/aerospike/aerospike-client-go/types"
+	. "github.com/ashishshinde/aerospike-client-go/internal/atomic"
+	lualib "github.com/ashishshinde/aerospike-client-go/internal/lua"
+	. "github.com/ashishshinde/aerospike-client-go/types"
 	lua "github.com/yuin/gopher-lua"
 )
 

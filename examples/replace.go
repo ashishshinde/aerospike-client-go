@@ -19,9 +19,9 @@ package main
 import (
 	"log"
 
-	as "github.com/aerospike/aerospike-client-go"
-	shared "github.com/aerospike/aerospike-client-go/examples/shared"
-	ast "github.com/aerospike/aerospike-client-go/types"
+	as "github.com/ashishshinde/aerospike-client-go"
+	shared "github.com/ashishshinde/aerospike-client-go/examples/shared"
+	ast "github.com/ashishshinde/aerospike-client-go/types"
 )
 
 func main() {

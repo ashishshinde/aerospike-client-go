@@ -21,8 +21,8 @@ import (
 	"bytes"
 	"log"
 
-	as "github.com/aerospike/aerospike-client-go"
-	shared "github.com/aerospike/aerospike-client-go/examples/shared"
+	as "github.com/ashishshinde/aerospike-client-go"
+	shared "github.com/ashishshinde/aerospike-client-go/examples/shared"
 )
 
 func main() {

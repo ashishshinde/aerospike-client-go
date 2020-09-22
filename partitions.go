@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strconv"
 
-	. "github.com/aerospike/aerospike-client-go/types"
+	. "github.com/ashishshinde/aerospike-client-go/types"
 )
 
 type Partitions struct {
