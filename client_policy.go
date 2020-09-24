@@ -133,6 +133,10 @@ type ClientPolicy struct {
 
 	// IgnoreOtherSubnetAliases helps to ignore aliases that are outside main subnet
 	IgnoreOtherSubnetAliases bool //= false
+
+	// SeedOnlycluster enforces the client to only connect to an used seed addresses. Peers nodes for the
+	// cluster are not discovered and seed nodes are retained despite connection failures.
+	SeedOnlyCluster bool //= false
 }
 
 // NewClientPolicy generates a new ClientPolicy with default values.
@@ -148,6 +152,7 @@ func NewClientPolicy() *ClientPolicy {
 		TendInterval:                time.Second,
 		LimitConnectionsToQueueSize: true,
 		IgnoreOtherSubnetAliases:    false,
+		SeedOnlyCluster:             false,
 	}
 }
 

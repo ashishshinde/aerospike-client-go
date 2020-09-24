@@ -250,7 +250,7 @@ func (clstr *Cluster) tend() error {
 		// Clear node reference counts.
 		node.referenceCount.Set(0)
 		node.partitionChanged.Set(false)
-		if !node.supportsPeers.Get() {
+		if clstr.clientPolicy.SeedOnlyCluster || !node.supportsPeers.Get() {
 			peers.usePeers.Set(false)
 		}
 	}
@@ -307,7 +307,7 @@ func (clstr *Cluster) tend() error {
 			defer wg.Done()
 			for _, host := range __peer.hosts {
 				// attempt connection to the host
-				nv := nodeValidator{}
+				nv := nodeValidator{seedOnlyCluster: clstr.clientPolicy.SeedOnlyCluster}
 				if err := nv.validateNode(clstr, host); err != nil {
 					Logger.Warn("Add node `%s` failed: `%s`", host, err)
 					continue
@@ -582,7 +582,7 @@ func (clstr *Cluster) seedNodes() (bool, error) {
 	for i, seed := range seedArray {
 		go func(index int, seed *Host) {
 			nodesToAdd := make(nodesToAddT, 128)
-			nv := nodeValidator{}
+			nv := nodeValidator{seedOnlyCluster: clstr.clientPolicy.SeedOnlyCluster}
 			err := nv.seedNodes(clstr, seed, nodesToAdd)
 			if err != nil {
 				Logger.Warn("Seed %s failed: %s", seed.String(), err.Error())
@@ -667,13 +667,19 @@ func (clstr *Cluster) removeAlias(alias *Host) {
 }
 
 func (clstr *Cluster) findNodesToRemove(refreshCount int) []*Node {
-	nodes := clstr.GetNodes()
-
 	removeList := []*Node{}
+
+	if clstr.clientPolicy.SeedOnlyCluster {
+		// Don't remove any node even if its bad or inactive.
+		return removeList
+	}
+
+	nodes := clstr.GetNodes()
 
 	for _, node := range nodes {
 		if !node.IsActive() {
 			// Inactive nodes must be removed.
+			Logger.Debug("Removing1 node %s (%s) to the cluster.", node.name, node.host.String())
 			removeList = append(removeList, node)
 			continue
 		}
@@ -683,6 +689,7 @@ func (clstr *Cluster) findNodesToRemove(refreshCount int) []*Node {
 			// All node info requests failed and this node had 5 consecutive failures.
 			// Remove node.  If no nodes are left, seeds will be tried in next cluster
 			// tend iteration.
+			Logger.Debug("Removing2 node %s (%s) to the cluster.", node.name, node.host.String())
 			removeList = append(removeList, node)
 			continue
 		}
@@ -696,10 +703,12 @@ func (clstr *Cluster) findNodesToRemove(refreshCount int) []*Node {
 				if !clstr.findNodeInPartitionMap(node) {
 					// Node doesn't have any partitions mapped to it.
 					// There is no point in keeping it in the cluster.
+					Logger.Debug("Removing3 node %s (%s) to the cluster.", node.name, node.host.String())
 					removeList = append(removeList, node)
 				}
 			} else {
 				// Node not responding. Remove it.
+				Logger.Debug("Removing4 node %s (%s) to the cluster.", node.name, node.host.String())
 				removeList = append(removeList, node)
 			}
 		}
