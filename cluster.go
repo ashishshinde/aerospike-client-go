@@ -679,7 +679,6 @@ func (clstr *Cluster) findNodesToRemove(refreshCount int) []*Node {
 	for _, node := range nodes {
 		if !node.IsActive() {
 			// Inactive nodes must be removed.
-			Logger.Debug("Removing1 node %s (%s) to the cluster.", node.name, node.host.String())
 			removeList = append(removeList, node)
 			continue
 		}
@@ -689,7 +688,6 @@ func (clstr *Cluster) findNodesToRemove(refreshCount int) []*Node {
 			// All node info requests failed and this node had 5 consecutive failures.
 			// Remove node.  If no nodes are left, seeds will be tried in next cluster
 			// tend iteration.
-			Logger.Debug("Removing2 node %s (%s) to the cluster.", node.name, node.host.String())
 			removeList = append(removeList, node)
 			continue
 		}
@@ -703,12 +701,10 @@ func (clstr *Cluster) findNodesToRemove(refreshCount int) []*Node {
 				if !clstr.findNodeInPartitionMap(node) {
 					// Node doesn't have any partitions mapped to it.
 					// There is no point in keeping it in the cluster.
-					Logger.Debug("Removing3 node %s (%s) to the cluster.", node.name, node.host.String())
 					removeList = append(removeList, node)
 				}
 			} else {
 				// Node not responding. Remove it.
-				Logger.Debug("Removing4 node %s (%s) to the cluster.", node.name, node.host.String())
 				removeList = append(removeList, node)
 			}
 		}
