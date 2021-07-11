@@ -261,7 +261,7 @@ func (clstr *Cluster) tend() Error {
 	wg.Wait()
 
 	// Refresh peers when necessary.
-	if peers.genChanged.Get() || len(peers.peers()) != nodeCountBeforeTend {
+	if clstr.clientPolicy.SeedOnlyCluster && (peers.genChanged.Get() || len(peers.peers()) != nodeCountBeforeTend) {
 		// Refresh peers for all nodes that responded the first time even if only one node's peers changed.
 		peers.refreshCount.Set(0)
 
@@ -300,7 +300,7 @@ func (clstr *Cluster) tend() Error {
 			defer wg.Done()
 			for _, host := range __peer.hosts {
 				// attempt connection to the host
-				nv := nodeValidator{}
+				nv := nodeValidator{seedOnlyCluster: clstr.clientPolicy.SeedOnlyCluster}
 				if err := nv.validateNode(clstr, host); err != nil {
 					logger.Logger.Warn("Add node `%s` failed: `%s`", host, err)
 					continue
@@ -570,7 +570,7 @@ func (clstr *Cluster) seedNodes() (bool, Error) {
 	for i, seed := range seedArray {
 		go func(index int, seed *Host) {
 			nodesToAdd := make(nodesToAddT, 128)
-			nv := nodeValidator{}
+			nv := nodeValidator{seedOnlyCluster: clstr.clientPolicy.SeedOnlyCluster}
 			err := nv.seedNodes(clstr, seed, nodesToAdd)
 			if err != nil {
 				logger.Logger.Warn("Seed %s failed: %s", seed.String(), err.Error())
@@ -634,9 +634,14 @@ func (clstr *Cluster) addAlias(host *Host, node *Node) {
 }
 
 func (clstr *Cluster) findNodesToRemove(refreshCount int) []*Node {
-	nodes := clstr.GetNodes()
-
 	removeList := []*Node{}
+
+	if clstr.clientPolicy.SeedOnlyCluster {
+		// Don't remove any node even if its bad or inactive.
+		return removeList
+	}
+
+	nodes := clstr.GetNodes()
 
 	for _, node := range nodes {
 		if !node.IsActive() {
