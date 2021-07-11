@@ -22,9 +22,9 @@ import (
 	"math"
 	"time"
 
-	as "github.com/aerospike/aerospike-client-go/v5"
-	shared "github.com/aerospike/aerospike-client-go/v5/examples/shared"
-	ast "github.com/aerospike/aerospike-client-go/v5/types"
+	as "github.com/ashishshinde/aerospike-client-go/v5"
+	shared "github.com/ashishshinde/aerospike-client-go/v5/examples/shared"
+	ast "github.com/ashishshinde/aerospike-client-go/v5/types"
 )
 
 func main() {
